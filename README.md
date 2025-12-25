@@ -24,5 +24,4 @@ El repositorio también forma parte de mis **primeros pasos utilizando Git y Git
 
 ## Notas
 
-Repositorio con fines de estudio personal.
 Hola Isa.
