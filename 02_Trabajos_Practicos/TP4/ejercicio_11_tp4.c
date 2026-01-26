@@ -18,6 +18,8 @@ typedef float tVecFloat[Max_Vec];
 void IngresoUnoOrdenado(tVecInt,tVecInt,tVecInt,tVecFloat,int,int,int,int,float);
 void IngresoLista(tVecInt,tVecInt,tVecInt,tVecFloat,int);
 void MostrarLista(tVecInt,tVecInt,tVecInt,tVecFloat,int);
+int BusqBinxCodP(tVecInt,int,int);
+void CargaNuevaLista(tVecInt,tVecInt,tVecInt,tVecFloat,int*);
 
 int main(void){
 	int M;
@@ -28,6 +30,7 @@ int main(void){
 	IngresoLista(CdPr,CdPv,CantP,Precio,M);
 	printf("\nLISTA INGRESADA\n");
 	MostrarLista(CdPr,CdPv,CantP,Precio,M);
+	CargaNuevaLista(CdPr,CdPv,CantP,Precio,&M);
 	return 0;
 }
 void IngresoUnoOrdenado(tVecInt CdPr,tVecInt CdPv,tVecInt CantP,tVecFloat Precio,int N,int CdPrN,int CdPvN,int CantPN,float PrecioN){
@@ -71,4 +74,57 @@ void MostrarLista(tVecInt CdPr,tVecInt CdPv,tVecInt CantP,tVecFloat Precio,int N
 		printf("\nCantidad de producto: %d",CantP[i]);
 		printf("\nPrecio: %f\n",Precio[i]);
 	}
+}
+int BusqBinxCodP(tVecInt CdPr,int N,int busq){
+	int ini,fin,med;
+	ini=1;
+	fin=N;
+	med=(ini+fin)/2;
+	while(ini<=fin && CdPr[med]!=busq){
+		if(busq<CdPr[med])
+			fin=med-1;
+		else
+			ini=med+1;
+		med=(ini+fin)/2;
+	}
+	if(ini<=fin)
+		return med;
+	else
+		return 0;
+}
+void CargaNuevaLista(tVecInt CdPr,tVecInt CdPv,tVecInt CantP,tVecFloat Precio,int* M){
+	int i,CdPrN,CdPvN,CantPN,N,med,contA,contP;
+	float PrecioN;
+	contA=0;
+	contP=0;
+	printf("\nTamaño nueva lista: ");
+	scanf("%d",&N);
+	for(i=1;i<=N;i++){
+		printf("\nProducto [%d]\n",i);
+		printf("Codigo de producto: ");
+		scanf("%d",&CdPrN);
+		med=BusqBinxCodP(CdPr,*M,CdPrN);
+		if(med){
+			contP++;
+			printf("\nProducto nro [%d]",med);
+			printf("\nCodigo de Proveedor: %d",CdPv[med]);
+			printf("\nCantidad: %d",CantP[med]);
+			printf("\nPrecio: %f",Precio[med]);
+			printf("\nPrecio nuevo: ");
+			scanf("%f",&Precio[med]);
+		}
+		else{
+			contA++;
+			printf("Codigo de proveedor: ");
+			scanf("%d",&CdPvN);
+			printf("Cantidad: ");
+			scanf("%d",&CantPN);
+			printf("Precio: ");
+			scanf("%f",&PrecioN);
+			(*M)++;
+			IngresoUnoOrdenado(CdPr,CdPv,CantP,Precio,*M,CdPrN,CdPvN,CantPN,PrecioN);
+		}
+	}
+	printf("\nCantidad de productos nuevos: %d\n",contA);
+	printf("\nCantidad de productos con precios actualizados: %d\n",contP);
 }
