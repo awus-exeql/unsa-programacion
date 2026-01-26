@@ -1,1 +1,33 @@
+# Binarios generados
+*.out
 *.bin
+*.exe
+
+# Archivos objeto
+*.o
+*.obj
+
+# Librerías compiladas
+*.a
+*.so
+*.dll
+
+# Carpetas de build
+build/
+dist/
+
+# Archivos temporales del sistema
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Archivos de depuración
+*.log
+*.tmp
+core
+
+# Dependencias generadas automáticamente
+*.d
+
