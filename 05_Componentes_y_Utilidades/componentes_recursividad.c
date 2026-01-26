@@ -13,7 +13,7 @@ typedef TReg TVec[Max_List];
 
 // DECLARACION DE PROTOTIPOS
 void LimpiaBuffer(char); //Modificado
-void LeeCad(TCad,int);
+void LeeCad(TCad,int,int);
 TReg GeneraTReg();
 void MostrarTReg(TReg);
 void CargarUno(TVec,int*);
@@ -41,12 +41,12 @@ void LimpiaBuffer(char c){
 		LimpiaBuffer(c);
 	}
 }
-void LeeCad(TCad C,int i){
+void LeeCad(TCad C,int i,int tam){
 	char c;
 	c=getchar();
-	if(c!='\n' && c!=EOF && i<Max_Cad-1){
+	if(c!='\n' && c!=EOF && i<tam-1){
 		C[i]=c;
-		LeeCad(C,i+1);
+		LeeCad(C,i+1,tam);
 	}
 	else{
 		C[i]='\0';
@@ -61,7 +61,7 @@ TReg GeneraTReg(){
 	LimpiaBuffer(getchar());
 	
 	printf("Ingresar mas datos: ");
-	LeeCad(G.masdatos,0);
+	LeeCad(G.masdatos,0,Max_Cad);
 	return G;
 }
 void MostrarTReg(TReg R){
@@ -118,7 +118,7 @@ int BusqSecuencial(TVec V,int n,int DatoBusq){
 		if(V[n].datos == DatoBusq)
 			return n;
 		else
-			BusqSecuencial(V,n-1,DatoBusq);
+			return BusqSecuencial(V,n-1,DatoBusq);
 	}
 	else
 	   return -1;
