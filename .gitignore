@@ -31,3 +31,6 @@ core
 # Dependencias generadas automáticamente
 *.d
 
+# Obsidian
+.obsidian/
+.trash/
