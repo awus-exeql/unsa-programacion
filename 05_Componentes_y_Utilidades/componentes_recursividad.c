@@ -15,6 +15,7 @@ typedef TReg TVec[Max_List];
 void LimpiaBuffer(char); //Modificado
 void LeeCad(TCad,int,int);
 TReg GeneraTReg();
+TReg GeneraTRegSinRepetir(TVec,int);
 void MostrarTReg(TReg);
 void CargarUno(TVec,int*);
 void CargarListaIncondicional(TVec,int);
@@ -63,6 +64,15 @@ TReg GeneraTReg(){
 	printf("Ingresar mas datos: ");
 	LeeCad(G.masdatos,0,Max_Cad);
 	return G;
+}
+TReg GeneraTRegSinRepetir(TVec V,int n){
+	TReg G;
+	G=GeneraTReg();
+	if(BusqSecuencial(V,n-1,G.datos) > 0) // (n-1) Porque empezamos a buscar una posicion atras.
+		// Ya que en (n) no tenemos nada asignado aun.
+		return GeneraTRegSinRepetir(V,n);
+	else
+		return G;
 }
 void MostrarTReg(TReg R){
 	printf("Datos: %d",R.datos);
