@@ -95,13 +95,13 @@ tPtr CrearNodoxCond(){
 	   printf("\nError!, memoria llena");
 	return Nuevo;
 }
-tPtr GeneraCopiatPtr(tPtr P){
+tPtr GeneraCopiaNodo(tPtr N){
 	tPtr Copia;
 	Copia=NULL;
-	if(P!=NULL){
+	if(N!=NULL){
 		Copia = (tPtr)malloc(sizeof(tNodo));
 		if(Copia!=NULL){
-			Copia->registro=GeneraCopiatReg(P->registro);
+			Copia->registro=GeneraCopiatReg(N->registro);
 			Copia->sig=NULL;
 		}
 		else
