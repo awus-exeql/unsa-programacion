@@ -229,11 +229,14 @@ void ModificarNodoxDato(tPtr* ini,int Dato){
 	   printf("\nNo se encontro en la lista\n");
 }
 tPtr GenerarNuevaListaxDato(tPtr ini,int Dato){
-	tPtr Nuevo;
+	tPtr Nuevo,CopiaNodo;
 	Nuevo=NULL;
+	CopiaNodo=NULL;
 	while(ini!=NULL){
 		if(ini->registro.dato==Dato)
-			CargaxOrden(&Nuevo,GeneraCopiatPtr(ini));
+			CopiaNodo = GeneraCopiaNodo(ini);
+			if(CopiaNodo!=NULL)
+				CargaxOrden(&Nuevo,CopiaNodo);
 		ini=ini->sig;
 	}
 	return Nuevo;
