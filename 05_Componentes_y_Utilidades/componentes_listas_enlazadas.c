@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
 #define Max_Cad 30
@@ -27,8 +27,8 @@ tPtr GeneraCopiatPtr(tPtr);
 void CargaxCabeza(tPtr*,tPtr);
 void CargaxCola(tPtr*,tPtr);
 void CargaxOrden(tPtr*,tPtr);
-tPtr CargaListaIncondicional();
-tPtr CargaListaCondicional();
+void CargaListaIncondicional(tPtr*,int); // Dudo de que se utilicen estos modulos
+void CargaListaCondicional(tPtr*,int*); // De carga
 tPtr BusquedaxDato(tPtr,int);
 void EliminarNodoxDato(tPtr*,int);
 void ModificarNodoxDato(tPtr*,int);
@@ -39,7 +39,8 @@ void MostrarLista(tPtr);
 
 int main(void) {
 	tPtr L;
-	L=CargaListaCondicional();
+	int n;
+	CargaListaCondicional(&L,&n);
 	MostrarLista(L);
 	return 0;
 }
@@ -96,8 +97,7 @@ tPtr CrearNodoxCond(){
 	return Nuevo;
 }
 tPtr GeneraCopiaNodo(tPtr N){
-	tPtr Copia;
-	Copia=NULL;
+	tPtr Copia = NULL;
 	if(N!=NULL){
 		Copia = (tPtr)malloc(sizeof(tNodo));
 		if(Copia!=NULL){
@@ -145,47 +145,38 @@ void CargaxOrden(tPtr* ini,tPtr Nuevo){
 		ant->sig=Nuevo;
 	}
 }
-tPtr CargaListaIncondicional(){
-	int i,n;
-	tPtr Nuevo,Aux;
-	Nuevo=NULL;
-	Aux=NULL;
-	printf("\nCantidad: ");
-	scanf("%d",&n);
-	LimpiaBuffer(getchar());
+void CargaListaIncondicional(tPtr* L,int n){
+	int i;
+	tPtr Aux = NULL;
 	for(i=1;i<=n;i++){
-		Aux=CrearNodo();
+		Aux=CrearNodoxCond();
 		if(Aux!=NULL){
 			// Acá se implementa cualquier carga de lista que hicimos anteriormente.
 			// Por ejemplo, el CargaxOrden.
-			CargaxOrden(&Nuevo,Aux);
+			CargaxOrden(L,Aux);
 		}
-		else
-			printf("\nError, memoria llena");
 	}
-	return Nuevo;
 }
-tPtr CargaListaCondicional(){
+void CargaListaCondicional(tPtr* L,int* n){
 	int seguir;
-	tPtr Nuevo,Aux;
+	tPtr Aux = NULL;
 	seguir=1;
-	Nuevo=NULL;
-	Aux=NULL;
+	*n=0;
 	do{
 		if(seguir==1){
 			Aux=CrearNodoxCond();
-			// La idea de carga es la misma que la Incondicional.
-			if(Aux!=NULL)
-				CargaxOrden(&Nuevo,Aux);
+			if(Aux!=NULL){
+				(*n)++;
+				CargaxOrden(L,Aux);
+			}
 		}
 		else
 		   if(seguir!=0)
 				printf("\nOpcion invalida\n");
 		printf("(1) Cargar,(0) Finalizar:");
 		scanf("%d",&seguir);
-		LimpiaBuffer(getchar());
+		__fpurge(stdin);
 	}while(seguir);
-	return Nuevo;
 }
 tPtr BusquedaxDato(tPtr L,int Dato){
 	while(L!=NULL && L->registro.dato!=Dato)
@@ -214,8 +205,7 @@ void EliminarNodoxDato(tPtr* ini,int Dato){
 	   printf("\nNo se encontro en la lista\n");
 }
 void ModificarNodoxDato(tPtr* ini,int Dato){
-	tPtr act;
-	act=*ini;
+	tPtr act = *ini;
 	while(act!=NULL && act->registro.dato!=Dato)
 		act=act->sig;
 	if(act!=NULL){
@@ -233,10 +223,11 @@ tPtr GenerarNuevaListaxDato(tPtr ini,int Dato){
 	Nuevo=NULL;
 	CopiaNodo=NULL;
 	while(ini!=NULL){
-		if(ini->registro.dato==Dato)
+		if(ini->registro.dato==Dato){
 			CopiaNodo = GeneraCopiaNodo(ini);
 			if(CopiaNodo!=NULL)
 				CargaxOrden(&Nuevo,CopiaNodo);
+		}
 		ini=ini->sig;
 	}
 	return Nuevo;
@@ -265,9 +256,10 @@ void DepurarListaxDato(tPtr* ini,int Dato){
 	}
 }
 void EliminarRepetidosxDato(tPtr* ini){
-	tPtr ant=NULL;
-	tPtr act=*ini;
-	tPtr sig=NULL;
+	tPtr ant,act,sig;
+	ant=NULL;
+	act=*ini;
+	sig=NULL;
 	while(act!=NULL){
 		ant=act;
 		sig=act->sig;
