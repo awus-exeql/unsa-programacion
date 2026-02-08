@@ -1,4 +1,4 @@
-#include <stdio_ext.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #define Max_Cad 30
@@ -23,12 +23,12 @@ void MostrartReg(tReg);
 tReg GeneraCopiatReg(tReg);
 tPtr CrearNodo();
 tPtr CrearNodoxCond();
-tPtr GeneraCopiatPtr(tPtr);
+tPtr GeneraCopiaNodo(tPtr);
 void CargaxCabeza(tPtr*,tPtr);
 void CargaxCola(tPtr*,tPtr);
 void CargaxOrden(tPtr*,tPtr);
-void CargaListaIncondicional(tPtr*,int); // Dudo de que se utilicen estos modulos
-void CargaListaCondicional(tPtr*,int*); // De carga
+void CargaListaIncondicional(tPtr*,int);
+void CargaListaCondicional(tPtr*,int*);
 tPtr BusquedaxDato(tPtr,int);
 void EliminarNodoxDato(tPtr*,int);
 void ModificarNodoxDato(tPtr*,int);
@@ -38,7 +38,7 @@ void EliminarRepetidosxDato(tPtr*);
 void MostrarLista(tPtr);
 
 int main(void) {
-	tPtr L;
+	tPtr L = NULL;
 	int n;
 	CargaListaCondicional(&L,&n);
 	MostrarLista(L);
@@ -71,8 +71,8 @@ tReg GeneratReg(){
 	return G;
 }
 void MostrartReg(tReg R){
-	printf("dato: %d",R.dato);
-	printf("otro dato: %s",R.otrodato);
+	printf("\ndato: %d",R.dato);
+	printf("\notro dato: %s",R.otrodato);
 }
 tReg GeneraCopiatReg(tReg R){
 	tReg Copia;
@@ -170,12 +170,12 @@ void CargaListaCondicional(tPtr* L,int* n){
 				CargaxOrden(L,Aux);
 			}
 		}
-		else
-		   if(seguir!=0)
-				printf("\nOpcion invalida\n");
-		printf("(1) Cargar,(0) Finalizar:");
+		else{
+		   printf("\nOpcion invalida\n");
+		}
+		printf("(1) Cargar,(0) Finalizar: ");
 		scanf("%d",&seguir);
-		__fpurge(stdin);
+		LimpiaBuffer(getchar());
 	}while(seguir);
 }
 tPtr BusquedaxDato(tPtr L,int Dato){
