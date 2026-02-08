@@ -217,7 +217,7 @@ void Merge(TVec V,int ini,int med,int fin){
 }
 void MSort(TVec V,int ini,int fin){
 	int med;
-	if(ini<=fin){
+	if(ini<fin){
 		med=(ini+fin)/2;
 		MSort(V,ini,med);
 		MSort(V,med+1,fin);
